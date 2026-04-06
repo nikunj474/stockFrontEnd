@@ -14,14 +14,5 @@ export default defineConfig({
                   strict: false
           }
     },
-    css: {
-          preprocessorOptions: {
-                  scss: {
-                            additionalData: `
-                                      $primary-color: #12101b;
-                                                $secondary-color: #2c2937;
-                                                        `
-                  }
-          }
-    }
+    css: {}
 })
