@@ -35,7 +35,6 @@ const DashboardPage = () => {
         <div className="dashboardPage">
             <div className="texts">
                 <div className="logo">
-                    <img src="/logo.png" alt="" />
                     <h1>Stock Chat AI</h1>
                 </div>
                 <div className="options">

@@ -130,7 +130,6 @@ const ChatList = () => {
             </div>
             <hr />
             <div className="upgrade">
-                <img src="/logo.png" alt="" />
                 <div className="texts">
                     <span>Stock Chat AI</span>
                     <span>RAG-Powered Stock Analysis</span>

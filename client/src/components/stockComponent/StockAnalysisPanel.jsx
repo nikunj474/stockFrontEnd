@@ -204,14 +204,14 @@ const StockAnalysisPanel = () => {
                                 overflowX: 'auto'
                             }}>
                                 {analysisData.newsData
-                                    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)) // Sort by date
-                                    .slice(0, 4) // Take only top 4
+                                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                                    .slice(0, 4)
                                     .map((news, index) => (
-                                        <div style={{ flex: '1', minWidth: '300px', maxWidth: '400px' }}>
+                                        <div key={news.id} style={{ flex: '1', minWidth: '300px', maxWidth: '400px' }}>
                                             <NewsCard
-                                                key={news.id}
                                                 news={news}
                                                 hasImage={!!news.imageUrl}
+                                                onSimilarNewsClick={() => {}}
                                             />
                                         </div>
                                     ))

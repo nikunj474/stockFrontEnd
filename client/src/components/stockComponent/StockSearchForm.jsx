@@ -78,7 +78,7 @@ const StockSearchForm = ({ onAnalysisRequest, onDataReceived }) => {
                             startDate: e.target.value
                         })}
                         min="2012-01-01"
-                        max="2023-12-29"
+                        max="2025-12-31"
                         required
                         className="input-field"
                     />
@@ -95,7 +95,7 @@ const StockSearchForm = ({ onAnalysisRequest, onDataReceived }) => {
                             endDate: e.target.value
                         })}
                         min="2012-01-01"
-                        max="2023-12-29"
+                        max="2025-12-31"
                         required
                         className="input-field"
                     />
