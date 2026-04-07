@@ -132,7 +132,7 @@
 import {useState, useRef, useEffect} from "react";
 import "./newPrompt.css";
 import { updateChat } from "../../lib/api";
-import ThinkingLoader from "../thinkingLoader/ThinkingLoader";
+import ThinkingLoader from "../ThinkingLoader/ThinkingLoader";
 import Markdown from "react-markdown";
 
 // const NewPrompt = ({ chatId, onNewMessage }) => {
