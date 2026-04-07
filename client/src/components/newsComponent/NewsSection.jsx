@@ -15,9 +15,10 @@ const NewsSection = () => {
     const { data: newsData, isLoading, error} = useQuery({
         queryKey: ["newsEvents", searchQuery],
         queryFn: async () => {
+            const base = import.meta.env.VITE_API_URL || 'http://localhost:3000';
             const url = searchQuery
-                ? `http://localhost:3000/api/news-events?company_name=${encodeURIComponent(searchQuery)}`
-                : 'http://localhost:3000/api/news-events';
+                ? `${base}/api/news-events?company_name=${encodeURIComponent(searchQuery)}`
+                : `${base}/api/news-events`;
             const response = await fetch(url);
             return response.json();
         },
@@ -37,13 +38,9 @@ const NewsSection = () => {
     if (error) return <div className="error">Error loading news</div>;
 
     const handleSimilarNewsClick = (headline) => {
-        console.log("NewsSection: Navigating to similar news for:", headline);
         const encodedHeadline = encodeURIComponent(headline);
-        console.log("Encoded headline:", encodedHeadline);
         navigate(`/dashboard/news/similar/${encodedHeadline}`);
     };
-
-    console.log('newsData:', newsData);
 
     return (
         <div className="newsSectionContainer">
@@ -62,13 +59,12 @@ const NewsSection = () => {
                 </form>
             </div>
             <div className="newsContent">
-                {newsData?.data.map((news, index) => (
+                {newsData?.data?.map((news, index) => (
                     <NewsCard
                         key={news.id}
                         news={news}
                         hasImage={!!news.imageUrl && index < 4}
                         onSimilarNewsClick={(headline) => {
-                            console.log("Click handler in NewsSection");
                             handleSimilarNewsClick(headline);
                         }}
                     />

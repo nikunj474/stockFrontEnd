@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { stockAnalytics } from '../../lib/api';
 
-
 const StockSearchForm = ({ onAnalysisRequest, onDataReceived }) => {
     const [formData, setFormData] = useState({
         companyName: '',
@@ -16,17 +15,16 @@ const StockSearchForm = ({ onAnalysisRequest, onDataReceived }) => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Update loading states to include news
         onAnalysisRequest(['stockData', 'trendsData', 'similarCompanies', 'industryData', 'newsData']);
 
         try {
-            // Add news fetch along with other requests
-            fetch(`http://localhost:3000/api/news-events?company_name=${encodeURIComponent(formData.companyName)}`)
+            const base = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+            fetch(`${base}/api/news-events?company_name=${encodeURIComponent(formData.companyName)}`)
                 .then(response => response.json())
                 .then(response => onDataReceived('newsData', response.data))
                 .catch(error => onDataReceived('newsData', null, error.message));
 
-            // Make requests individually and update as they complete
             stockAnalytics.getStockData(formData.companyName, formData.startDate, formData.endDate)
                 .then(response => onDataReceived('stockData', response.data))
                 .catch(error => onDataReceived('stockData', null, error.message));

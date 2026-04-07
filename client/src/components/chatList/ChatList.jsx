@@ -23,7 +23,6 @@ const ChatList = () => {
         await deleteChat(chatId);
         await queryClient.invalidateQueries(['userChats']);
         await queryClient.invalidateQueries(['chat', chatId]);
-        // if the chat open is deleted, close the chat
 
         if (location.pathname === `/dashboard/chats/${chatId}`) {
             navigate('/dashboard');
@@ -54,10 +53,8 @@ const ChatList = () => {
                     : error
                         ? "Something went wrong!"
                         : (() => {
-                            // data: [{_id, title, createdAt}, ...]
                             const now = new Date();
 
-                            // hlper function to get date label
                             const getDateLabel = (createdAt) => {
                                 const createdDate = new Date(createdAt);
                                 const diffTime = now.getTime() - createdDate.getTime();
@@ -72,7 +69,6 @@ const ChatList = () => {
                                 }
                             };
 
-                            // divide chats into groups
                             const groupedChats = data.reduce((acc, chat) => {
                                 const dateLabel = getDateLabel(chat.createdAt);
                                 if (!acc[dateLabel]) {
@@ -82,19 +78,16 @@ const ChatList = () => {
                                 return acc;
                             }, {});
 
-                            // get date groups
                             const dateGroups = Object.keys(groupedChats);
 
-                            // custom sort
                             dateGroups.sort((a, b) => {
                                 if (a === "Today") return -1;
                                 if (b === "Today") return 1;
                                 if (a === "Yesterday" && b !== "Today") return -1;
                                 if (b === "Yesterday" && a !== "Today") return 1;
-                                // other dates
                                 const aDate = a === "Today" || a === "Yesterday" ? now : new Date(a);
                                 const bDate = b === "Today" || b === "Yesterday" ? now : new Date(b);
-                                return bDate - aDate; // the latest date first
+                                return bDate - aDate;
                             });
 
                             return (
@@ -139,8 +132,8 @@ const ChatList = () => {
             <div className="upgrade">
                 <img src="/logo.png" alt="" />
                 <div className="texts">
-                    <span>STOCK AI Developd By</span>
-                    <span>Muyu, Yuchen, Nathan, Nikunj</span>
+                    <span>Stock Chat AI</span>
+                    <span>RAG-Powered Stock Analysis</span>
                 </div>
             </div>
         </div>

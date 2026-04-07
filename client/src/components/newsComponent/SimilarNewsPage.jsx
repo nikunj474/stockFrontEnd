@@ -7,7 +7,6 @@ const SimilarNewsPage = () => {
     const { headline } = useParams();
 
     const handleNewsClick = (url) => {
-        console.log('Clicking URL:', url); // Debug log
         if (url) {
             window.open(url, '_blank', 'noopener,noreferrer');
         }
@@ -16,7 +15,8 @@ const SimilarNewsPage = () => {
     const { data: similarNews, isLoading, error } = useQuery({
         queryKey: ['similarNews', headline],
         queryFn: async () => {
-            const response = await fetch(`http://localhost:3000/api/similar-news`, {
+            const base = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const response = await fetch(`${base}/api/similar-news`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ const SimilarNewsPage = () => {
                     <div
                         key={news.id}
                         className="newsCard withoutImage"
-                        onClick={() => handleNewsClick(news.url)} // Use news.url instead of news.link
+                        onClick={() => handleNewsClick(news.url)}
                     >
                         <div className="newsCard-content">
                             <div className="newsCard-meta">
