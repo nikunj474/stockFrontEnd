@@ -52,6 +52,8 @@ const ChatList = () => {
                     ? "Loading..."
                     : error
                         ? "Something went wrong!"
+                        : !data || !Array.isArray(data)
+                        ? null
                         : (() => {
                             const now = new Date();
 
