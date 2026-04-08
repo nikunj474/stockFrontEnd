@@ -1,5 +1,6 @@
 import "./chatPage.css";
 import NewPrompt from "../../components/newPrompt/NewPrompt";
+import ThinkingLoader from "../../components/ThinkingLoader/ThinkingLoader";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { getChat } from "../../lib/api";
@@ -14,7 +15,14 @@ const ChatPage = () => {
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ["chat", id],
         queryFn: () => getChat(id),
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
+        // Poll every 3s until the last message is from the model (AI responded)
+        refetchInterval: (query) => {
+            const history = query.state.data?.history;
+            if (!history || history.length === 0) return 3000;
+            const lastMsg = history[history.length - 1];
+            return lastMsg?.role === "model" ? false : 3000;
+        },
     });
 
     useEffect(() => {
@@ -45,6 +53,13 @@ const ChatPage = () => {
                             <Markdown>{message.parts[0].text}</Markdown>
                         </div>
                     ))}
+                    {(() => {
+                        const history = data?.history;
+                        if (history?.length > 0 && history[history.length - 1].role === "user") {
+                            return <div className="message"><ThinkingLoader /></div>;
+                        }
+                        return null;
+                    })()}
                     <div className="endChat" ref={endRef}></div>
                     <NewPrompt
                         chatId={id}
